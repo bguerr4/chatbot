@@ -116,17 +116,16 @@ function formatarClassificacao(dados) {
         }
         return resultado;
 
-    } 
+    }
 
     else if (typeof dados === "object" && dados !== null) {
         if (!dados.contexto || !dados.setor_responsavel || !dados.acao_recomendada) {
             console.warn("Objeto está com campos incompletos:", dados);
         }
-        return "Classificação:\n" +
-               "Contexto: " + (dados.contexto || "N/A") + "\n" +
-               "Setor responsável: " + (dados.setor_responsavel || "N/A") + "\n" +
-               "Ação recomendada: " + (dados.acao_recomendada || "N/A");
-    } 
+        return "Contexto: " + (dados.contexto || "N/A") + "\n" +
+            "Setor responsável: " + (dados.setor_responsavel || "N/A") + "\n" +
+            "Ação recomendada: " + (dados.acao_recomendada || "N/A");
+    }
 
     else {
         return String(dados);
@@ -207,7 +206,7 @@ async function chamarOpenRouter(mensagem, apiKey) {
 
 // execucao - main func
 
-async function executarEnvio() { 
+async function executarEnvio() {
     if (sendBtn.disabled) {
         return;
     }
