@@ -28,18 +28,7 @@ function adicionarMensagem(texto, classe) {
 }
 
 function formatarClassificacao(dados) {
-    // Log de aviso se faltar alguma chave (ajuda na depuração)
     if (Array.isArray(dados)) {
-        for (let i = 0; i < dados.length; ++i) {
-            const item = dados[i];
-            if (!item.categoria || !item.setor_responsavel || !item.acao_recomendada) {
-                console.warn("Assunto " + (i + 1) + " está com campos incompletos:", item);
-            }
-        }  // --------------------------------------------------------------------------------------------------------------- ENTENDER
-        if (dados.length === 0) {
-            return "Nenhuma classificação retornada.";
-        }
-
         let resultado = "";
         for (let i = 0; i < dados.length; ++i) {
             const item = dados[i];
@@ -76,8 +65,6 @@ function limparInput() {
 function setarBotaoHabilitado(habilitado) {
     sendBtn.disabled = !habilitado;
 }
-
-// sanitizar inputs
 
 function obterMensagemUsuario() {
     return inputEl.value.trim();
