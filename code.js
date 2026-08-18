@@ -77,7 +77,7 @@ function formatarClassificacao(dados) {
         for (let i = 0; i < dados.length; ++i) { // multiplos assuntos
             const item = dados[i];
             resultado += "Assunto " + (i + 1) + ":\n";
-            resultado += "Contexto: " + (item.contexto || "N/A") + "\n";
+            resultado += "Categoria: " + (item.categoria || "N/A") + "\n";
             resultado += "Setor responsável: " + (item.setor_responsavel || "N/A") + "\n";
             resultado += "Ação recomendada: " + (item.acao_recomendada || "N/A");
             if (i < dados.length - 1) {
@@ -86,9 +86,18 @@ function formatarClassificacao(dados) {
         }
         return resultado;
     }
+    else if (typeof dados === "object" && dados !== null) { // se der algum erro
+        return "Categoria: " + (dados.categoria || "N/A") + "\n" +
+            "Setor responsável: " + (dados.setor_responsavel || "N/A") + "\n" +
+            "Ação recomendada: " + (dados.acao_recomendada || "N/A");
+    }
     else {
         return String(dados);
     }
+}
+
+function habilitarBotao(habilitado) {
+    sendBtn.disabled = !habilitado;
 }
 
 async function chamarAPI(mensagem, apiKey) {
@@ -119,11 +128,12 @@ async function chamarAPI(mensagem, apiKey) {
         }
     );
     const resposta = await output.json();
-    let raw = resposta.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || ""; 
+    let raw = resposta.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || "";
+    return JSON.parse(raw);
     // tambem nao sei como funciona, mas faz com que nao dê bosta
 }
 
-function checarCampos(mensagem, apiKey){
+function checarCampos(mensagem, apiKey) {
     if (!mensagem) {
         adicionarMensagem("Digite uma mensagem antes de enviar", "bot error");
         return false;
@@ -135,27 +145,32 @@ function checarCampos(mensagem, apiKey){
     return true;
 }
 
-function enviar(){
+async function enviar() {
     if (sendBtn.disabled) {
         return;
     }
 
-    const mensagem = input.value.trim(); // obter msg usuario
-    const apiKey = apiKeyInput.value.trim(); // obter api key
+    const mensagem = input.value.trim();
+    const apiKey = apiKeyInput.value.trim();
 
-    if (!checarCampos(mensagem, apiKey)){
+    if (!checarCampos(mensagem, apiKey)) {
         return;
     }
-    
+
     adicionarMensagem(mensagem, "user");
     input.value = "";
     habilitarBotao(false);
 
     const thinkingEl = adicionarMensagem("classificando...", "thinking");
 
-    const resultado = await chamarAPI(mensagem, apiKey); // chamar api
-    thinkingEl.remove();
-    adicionarMensagem(formatarClassificacao(resultado), "bot");
+    try {
+        const resultado = await chamarAPI(mensagem, apiKey);
+        thinkingEl.remove();
+        adicionarMensagem(formatarClassificacao(resultado), "bot");
+    } catch (erro) {
+        thinkingEl.remove();
+        adicionarMensagem("Erro: " + erro.message, "bot error");
+    }
 
     habilitarBotao(true);
 }
@@ -166,10 +181,6 @@ input.addEventListener("keydown", (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
         enviar();
     }
-});
-
-sendBtn.addEventListener("click", () => {
-    enviar();
 });
 
 habilitarBotao(true);
