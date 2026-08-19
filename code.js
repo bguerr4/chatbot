@@ -1,6 +1,6 @@
 /*
     classificador de emails academicos
-    integracao com OpenRouter. pra mudar a IA é so mudar a chave API
+    integracao com Gemini. 
     retorna um JSON com categoria, setor responsável e ação recomendada
 */
 
