@@ -1,29 +1,32 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Chat de Classificação — Teste</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat de Classificação — Teste</title>
 
 </head>
+
 <body>
 
-<div class="app">
-  <div class="header">Chat de Classificação — ambiente de teste</div>
+    <div class="app">
+        <div class="header">Chat de Classificação — ambiente de teste</div>
 
-  <div class="config">
-    <input id="apiKey" type="password" placeholder="Cole aqui sua API key do Gemini">
-  </div>
+        <div class="config">
+            <input id="apiKey" type="password" placeholder="Cole aqui sua API key do Gemini">
+        </div>
 
-  <div class="chat" id="chat"></div>
+        <div class="chat" id="chat"></div>
 
-  <div class="inputbar">
-    <textarea id="input" placeholder="Digite a mensagem do usuário..."></textarea>
-    <button id="sendBtn" onclick=enviar()>Enviar</button>
-  </div>
-</div>
+        <div class="inputbar">
+            <textarea id="input" placeholder="Digite a mensagem do usuário..."></textarea>
+            <button id="sendBtn" onclick=enviar()>Enviar</button>
+        </div>
+    </div>
 
 </body>
+
 </html>
 <script src="code.js" defer></script>
 <link rel="stylesheet" href="style.css">
