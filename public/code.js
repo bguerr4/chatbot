@@ -2,6 +2,8 @@
     classificador de emails academicos
     integracao com Gemini. 
     retorna um JSON com categoria, setor responsável e ação recomendada
+
+    frontend
 */
 
 const chat = document.getElementById("chat");
