@@ -62,14 +62,6 @@ Se a mensagem for ambígua, siga a regra de mensagem incompleta.
 export async function onRequestPost(context) {
     const { request, env } = context;
     const apiKey = env.GEMINI_API_KEY;
-
-    if (!apiKey) {
-        return new Response(
-            JSON.stringify({ error: { message: "GEMINI_API_KEY não configurada no servidor." } }),
-            { status: 500, headers: { "Content-Type": "application/json" } }
-        );
-    }
-
     const { mensagem } = await request.json();
     const modelo = "gemini-3.1-flash-lite";
 
