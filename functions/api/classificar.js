@@ -3,8 +3,7 @@
     integracao com Gemini.
     retorna um JSON com categoria, setor responsável e ação recomendada
 
-    roda no servidor (Cloudflare Pages Function) -- a API key
-    fica em env.GEMINI_API_KEY e nunca chega no navegador do usuário.
+    backend
 */
 
 const SYSTEM_PROMPT = `
@@ -61,7 +60,7 @@ Se a mensagem for ambígua, siga a regra de mensagem incompleta.
 
 export async function onRequestPost(context) {
     const { request, env } = context;
-    const apiKey = env.GEMINI_API_KEY;
+    const apiKey = env.GEMINI_API_KEY; // busca la no cloudflare pages
     const { mensagem } = await request.json();
     const modelo = "gemini-3.1-flash-lite";
 
@@ -79,12 +78,12 @@ export async function onRequestPost(context) {
                 contents: [
                     {
                         role: "user",
-                        parts: [{ text: mensagem }]
+                        parts: [{ text: mensagem }] // mensagem chega aqui
                     }
                 ],
                 generationConfig: {
-                    temperature: 0.2,
-                    responseMimeType: "application/json"
+                    temperature: 0.2, // pra ele nao viajar muito
+                    responseMimeType: "application/json" // garante que o modo de resposta seja sempre um json
                 }
             })
         }
