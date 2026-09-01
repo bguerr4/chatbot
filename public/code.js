@@ -8,14 +8,14 @@ const chat = document.getElementById("chat");
 const input = document.getElementById("input");
 const sendBtn = document.getElementById("sendBtn");
 
-function escapeHtml(texto) {
+function escapeHtml(texto) { // remover caracteres especiais
     return texto
         .replaceAll("&", "&amp;")
         .replaceAll("<", "&lt;")
         .replaceAll(">", "&gt;");
 }
 
-function adicionarMensagem(texto, classe) {
+function adicionarMensagem(texto, classe) { // add mensagem no html
     const textoEscapado = escapeHtml(texto);
 
     chat.innerHTML += `<div class="msg ${classe}" style="white-space: pre-wrap;">${textoEscapado}</div>`;
@@ -24,14 +24,14 @@ function adicionarMensagem(texto, classe) {
     return chat.lastElementChild;
 }
 
-function formatarItem(item) {
+function formatarItem(item) { // separar json
     return `Categoria: ${item.categoria || "N/A"}\n` +
         `Setor responsável: ${item.setor_responsavel || "N/A"}\n` +
         `Ação recomendada: ${item.acao_recomendada || "N/A"}`;
 }
 
 function formatarClassificacao(dados) {
-    if (Array.isArray(dados)) {
+    if (Array.isArray(dados)) { // se forem multiplos assuntos
         return dados
             .map((item, i) => `Assunto ${i + 1}:\n${formatarItem(item)}`)
             .join("\n\n─────────────\n\n");
@@ -46,8 +46,8 @@ function habilitarBotao(habilitado) {
     sendBtn.disabled = !habilitado;
 }
 
-async function chamarAPI(mensagem) {
-    const output = await fetch("/api/classificar", {
+async function chamarAPI(mensagem) { // chamar api
+    const output = await fetch("/api/classificar", { // ver functions/api/chamar.js
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -59,22 +59,14 @@ async function chamarAPI(mensagem) {
     return JSON.parse(raw);
 }
 
-function checarCampos(mensagem) {
-    if (!mensagem) {
-        adicionarMensagem("Digite uma mensagem antes de enviar", "bot error");
-        return false;
-    }
-    return true;
-}
-
-async function enviar() {
+async function enviar() { // funcao principal
     if (sendBtn.disabled) {
         return;
     }
 
     const mensagem = input.value.trim();
 
-    if (!checarCampos(mensagem)) {
+    if (!mensagem) {
         return;
     }
 
@@ -84,14 +76,9 @@ async function enviar() {
 
     const thinkingEl = adicionarMensagem("classificando...", "thinking");
 
-    try {
-        const resultado = await chamarAPI(mensagem);
-        thinkingEl.remove();
-        adicionarMensagem(formatarClassificacao(resultado), "bot");
-    } catch (erro) {
-        thinkingEl.remove();
-        adicionarMensagem("Erro: " + erro.message, "bot error");
-    }
+    const resultado = await chamarAPI(mensagem); // joga a mensagem pro gemini
+    thinkingEl.remove();
+    adicionarMensagem(formatarClassificacao(resultado), "bot"); // passa os valores da mensagem pra formatarClassificacao()
 
     habilitarBotao(true);
 }
