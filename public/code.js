@@ -49,7 +49,7 @@ function habilitarBotao(habilitado) {
 }
 
 async function chamarAPI(mensagem) { // chamar api
-    const output = await fetch("/api/classificar", { // ver functions/api/chamar.js
+    const output = await fetch("/api/classificar", { // ver functions/api/classificar.js
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -62,9 +62,7 @@ async function chamarAPI(mensagem) { // chamar api
 }
 
 async function enviar() { // funcao principal
-    if (sendBtn.disabled) {
-        return;
-    }
+    habilitarBotao(false);
 
     const mensagem = input.value.trim();
 
@@ -74,7 +72,6 @@ async function enviar() { // funcao principal
 
     adicionarMensagem(mensagem, "user");
     input.value = "";
-    habilitarBotao(false);
 
     const thinkingEl = adicionarMensagem("classificando...", "thinking");
 
@@ -87,7 +84,7 @@ async function enviar() { // funcao principal
 
 // on doc load
 
-input.addEventListener("keydown", (e) => {
+input.addEventListener("keydown", (e) => { // escuta enter pra mandar msg
     if (e.key === "Enter" && !e.shiftKey) {
         enviar();
     }
