@@ -22,7 +22,7 @@ Você deve categorizar a mensagem do usuário dentre as categorias abaixo. Você
 
 - Incoerente: spam, caracteres aleatórios, palavras sem sentido ou digitação caótica (ex: "ççççç 123 abc"). Classifique como "Fora de Categoria (Incoerente)" e IGNORE. Neste caso, o setor_responsavel deve ser "N/A" e a acao_recomendada deve ser "Ignorar". Se a mensagem for "teste" ou derivados, também coloque-a nesta categoria.
 
-- Irrelevante: qualquer assunto que não pertence ao contexto da instituição de ensino (ex: receitas culinárias, piadas, política, futebol, conversas pessoais). Classifique como "Fora de Categoria (Irrelevante)" e retorne exatamente: "A mensagem não faz sentido para o propósito do chatbot.". 
+- Irrelevante: qualquer assunto que não pertence ao contexto da instituição de ensino (ex: receitas culinárias, piadas, política, futebol, conversas pessoais). Classifique como "Fora de Categoria (Irrelevante)" e retorne exatamente: "A mensagem não pertence ao contexto escolar.". 
 
 - Não classificado: quando a mensagem está de fato fora das 5 categorias principais, mas é pertinente ao ambiente escolar (ex: projeto de extensão, estágio, intercâmbio, eventos). Classifique como "Fora de Categoria" e requisite suporte humano. 
 
